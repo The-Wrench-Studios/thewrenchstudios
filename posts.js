@@ -1,6 +1,14 @@
 const posts = [
 
   {
+    title: "Classix: The Comix",
+    section: "comics",
+    date: "2026-09-19",
+    meta: "A short collection of absurd humor.",
+    file: "comics/The Comix.pdf"
+  },
+  
+  {
     title: "The Legion of the Wrench End Movie [Official Script]",
     section: "library",
     date: "2026-09-05",
