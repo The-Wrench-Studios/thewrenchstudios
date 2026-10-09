@@ -1,6 +1,14 @@
 const posts = [
 
   {
+    title: "Issue #5: The Next Smash Bros.",
+    section: "icebox",
+    date: "2026-10-08",
+    meta: "A deep insight about the future of Smash.",
+    file: "icebox/5_ The Next Smash Bros.pdf"
+  },
+  
+  {
     title: "Classix: The Comix",
     section: "comics",
     date: "2026-09-19",
