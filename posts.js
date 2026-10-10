@@ -1,6 +1,14 @@
 const posts = [
 
   {
+    title: "Test upload",
+    section: "library",
+    date: "2026-10-10",
+    meta: "A deep insight about the future of Smash.",
+    file: "The Wrench Studios Official Intro.mp4"
+  },
+  
+  {
     title: "Issue #5: The Next Smash Bros.",
     section: "icebox",
     date: "2026-10-10",
