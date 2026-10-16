@@ -1,4 +1,5 @@
 const posts = [
+
   {
     title: "Issue #6: Loopstation, the Beatbox Instrument",
     section: "icebox",
