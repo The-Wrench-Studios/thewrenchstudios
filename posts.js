@@ -1,4 +1,11 @@
 const posts = [
+  {
+    title: "Issue #6: Loopstation, the Beatbox Instrument",
+    section: "icebox",
+    date: "2026-10-17",
+    meta: "Loopstation and its evolution with beatboxing.",
+    file: "icebox/6_ Beatbox Loopstation.pdf"
+  },
   
   {
     title: "Issue #5: The Next Smash Bros.",
