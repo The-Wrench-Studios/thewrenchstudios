@@ -1,5 +1,12 @@
 const posts = [
-
+  {
+    title: "Issue #7: Top Loopstation Tracks",
+    section: "icebox",
+    date: "2026-10-24",
+    meta: "My personal favorite beatbox loopstation artists and tracks.",
+    file: "icebox/7_ Top Loopstation Tracks.pdf"
+  },
+  
   {
     title: "Issue #6: Loopstation, the Beatbox Instrument",
     section: "icebox",
