@@ -1,4 +1,13 @@
 const posts = [
+
+    {
+    title: "Moonshot Birthday Collection",
+    section: "art",
+    date: "2026-10-27",
+    meta: "Moonshot, galactic bounty hunter and baker!",
+    file: "artwork/Moonshot Birthday Collection.pdf"
+    },
+  
   {
     title: "Issue #7: Top Loopstation Tracks",
     section: "icebox",
