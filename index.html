@@ -392,12 +392,23 @@
   .page { display: none; }
   .page.active { display: block; }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 640px) {
+  /* ── MOBILE RESPONSIVE ── */
+ @media (max-width: 640px) {
     .nav { padding: 14px 20px; }
     .hero { padding: 40px 20px 32px; }
     .hero-title { font-size: 36px; }
-    .tabs { padding: 0 20px; }
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding: 0 20px;
+      overflow-x: visible;
+    }
+    .tab {
+      margin-right: 0;
+      text-align: center;
+      justify-content: center;
+      padding: 12px 4px;
+    }
     .content { padding: 24px 20px; }
     .donate-section { margin: 0 20px; }
     .donate-inner { flex-direction: column; }
