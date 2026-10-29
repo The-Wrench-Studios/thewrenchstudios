@@ -586,7 +586,15 @@
   let activeFilter = "all";
  
   /*OPEN POST*/
+function isMobile() {
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
 function openPost(post) {
+  if (post.file.endsWith(".pdf") && isMobile()) {
+    window.open(post.file, "_blank");
+    return;
+  }
   renderViewer(post);
   history.pushState({ page: "viewer", postTitle: post.title }, "", "#post-" + encodeURIComponent(post.title));
 }
