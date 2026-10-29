@@ -246,18 +246,6 @@
     color: var(--text-dim);
     margin-bottom: 18px;
   }
-
- <div class="content">
-    <div class="section-label">Recent posts</div>
-    <div class="search-active-chip" id="searchActiveChip" style="display:none;">
-      <span id="searchActiveChipText"></span>
-      <button id="searchActiveChipClear" aria-label="Clear search">×</button>
-    </div>
-    <div class="post-grid" id="postGrid">
-      <!-- Cards injected by JS -->
-    </div>
-    <div class="empty-state" id="emptyState">No posts in this section yet.</div>
-  </div>
  
   /* ── POST GRID ── */
   .post-grid {
@@ -558,12 +546,14 @@
 
   <div class="content">
     <div class="section-label">Recent posts</div>
+    <div class="search-active-chip" id="searchActiveChip" style="display:none;">
+      <span id="searchActiveChipText"></span>
+      <button id="searchActiveChipClear" aria-label="Clear search">×</button>
+    </div>
     <div class="post-grid" id="postGrid">
       <!-- Cards injected by JS -->
     </div>
     <div class="empty-state" id="emptyState">No posts in this section yet.</div>
-
-
   </div>
 
   <!-- DONATE -->
