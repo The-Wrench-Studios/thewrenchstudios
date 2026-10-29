@@ -131,6 +131,51 @@
     letter-spacing: 0.04em;
   }
 
+  .search-box-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .search-box-header .search-input { flex: 1; }
+  .search-close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    transition: color 0.15s;
+  }
+  .search-close-btn:hover { color: var(--text-primary); }
+
+  .search-active-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    border: 0.5px solid var(--border-mid);
+    border-radius: 20px;
+    padding: 6px 10px 6px 14px;
+    margin-bottom: 18px;
+  }
+  .search-active-chip strong { color: var(--text-primary); font-weight: 500; }
+  .search-active-chip button {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 2px 4px;
+    transition: color 0.15s;
+  }
+  .search-active-chip button:hover { color: var(--text-primary); }
+ 
   /* ── HERO ── */
   .hero {
     padding: 64px 40px 48px;
@@ -202,6 +247,18 @@
     margin-bottom: 18px;
   }
 
+ <div class="content">
+    <div class="section-label">Recent posts</div>
+    <div class="search-active-chip" id="searchActiveChip" style="display:none;">
+      <span id="searchActiveChipText"></span>
+      <button id="searchActiveChipClear" aria-label="Clear search">×</button>
+    </div>
+    <div class="post-grid" id="postGrid">
+      <!-- Cards injected by JS -->
+    </div>
+    <div class="empty-state" id="emptyState">No posts in this section yet.</div>
+  </div>
+ 
   /* ── POST GRID ── */
   .post-grid {
     display: grid;
@@ -456,8 +513,13 @@
 <!-- SEARCH OVERLAY -->
 <div class="search-overlay" id="searchOverlay" role="dialog" aria-label="Search">
   <div class="search-box">
-    <input class="search-input" id="searchInput" type="text" placeholder="Search posts, stories, art…" autocomplete="off" />
-    <p class="search-hint">Press Esc to close</p>
+    <div class="search-box-header">
+      <input class="search-input" id="searchInput" type="text" placeholder="Search posts, stories, art…" autocomplete="off" />
+      <button class="search-close-btn" id="searchCloseBtn" aria-label="Close search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <p class="search-hint">Enter to apply · Esc or × to cancel</p>
   </div>
 </div>
 
@@ -622,48 +684,66 @@ function renderViewer(post) {
   }
 }
  
-  /* ── RENDER POSTS ── */
-  function renderPosts() {
+/*NEW RENDER POSTS*/
+
+  function formatDate(d) {
+    return new Date(d).toLocaleDateString("en-US", { month:"short", day:"numeric" });
+  }
+ 
+  let searchQuery = "";
+
+  function filterPosts(query) {
+    return posts.filter(p =>
+      p.title.toLowerCase().includes(query) ||
+      p.meta.toLowerCase().includes(query) ||
+      sectionLabels[p.section].toLowerCase().includes(query)
+    );
+  }
+
+  function renderGrid(list) {
     const grid = document.getElementById("postGrid");
     const empty = document.getElementById("emptyState");
-    const artLabel = document.getElementById("artGalleryLabel");
-
-
-    const filtered = activeFilter === "all"
-      ? posts
-      : posts.filter(p => p.section === activeFilter);
-
     grid.innerHTML = "";
-    if (filtered.length === 0) {
+    if (list.length === 0) {
       grid.style.display = "none";
       empty.style.display = "block";
     } else {
       grid.style.display = "grid";
       empty.style.display = "none";
-      filtered.forEach(p => {
+      list.forEach(p => {
         const card = document.createElement("div");
-        card.className = "post-card";     
+        card.className = "post-card";
         card.innerHTML = `
            <div class="post-card-type ${p.section}">${sectionLabels[p.section]}</div>
            <div class="post-card-title">${p.title}</div>
            <div class="post-card-meta">${formatDate(p.date)} · ${p.meta}</div>
           `;
-        card.addEventListener("click", () => {
-           if (p.file) {
-              openPost(p);
-             }
-         });
-       
+        card.addEventListener("click", () => { if (p.file) openPost(p); });
         grid.appendChild(card);
-         });
+      });
     }
-
-
   }
 
+  function renderPosts() {
+    const list = searchQuery
+      ? filterPosts(searchQuery)
+      : (activeFilter === "all" ? posts : posts.filter(p => p.section === activeFilter));
+    renderGrid(list);
+  }
+
+  function updateSearchChip() {
+    const chip = document.getElementById("searchActiveChip");
+    const chipText = document.getElementById("searchActiveChipText");
+    if (searchQuery) {
+      chipText.innerHTML = `Search: <strong>"${searchQuery}"</strong>`;
+      chip.style.display = "inline-flex";
+    } else {
+      chip.style.display = "none";
+    }
+  }
 
   function formatDate(d) {
-    return new Date(d).toLocaleDateString("en-US", { month:"short", day:"numeric" });
+    return new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric" });
   }
 
   /* ── TABS ── */
@@ -672,9 +752,56 @@ function renderViewer(post) {
       document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
       tab.classList.add("active");
       activeFilter = tab.dataset.filter;
+      searchQuery = "";
+      document.getElementById("searchInput").value = "";
       renderPosts();
+      updateSearchChip();
     });
   });
+
+  /* ── SEARCH ── */
+  function openSearch() {
+    document.getElementById("searchOverlay").classList.add("open");
+    document.getElementById("searchInput").value = searchQuery;
+    document.getElementById("searchInput").focus();
+  }
+
+  function cancelSearch() {
+    document.getElementById("searchOverlay").classList.remove("open");
+    document.getElementById("searchInput").value = "";
+    searchQuery = "";
+    renderPosts();
+    updateSearchChip();
+  }
+
+  function confirmSearch() {
+    document.getElementById("searchOverlay").classList.remove("open");
+    updateSearchChip();
+  }
+
+  document.getElementById("searchOverlay").addEventListener("click", e => {
+    if (e.target === e.currentTarget) cancelSearch();
+  });
+  document.getElementById("searchCloseBtn").addEventListener("click", cancelSearch);
+  document.addEventListener("keydown", e => {
+    if (!document.getElementById("searchOverlay").classList.contains("open")) return;
+    if (e.key === "Escape") cancelSearch();
+    if (e.key === "Enter") confirmSearch();
+  });
+
+  document.getElementById("searchInput").addEventListener("input", e => {
+    searchQuery = e.target.value.toLowerCase().trim();
+    renderPosts();
+    updateSearchChip();
+  });
+
+  document.getElementById("searchActiveChipClear").addEventListener("click", () => {
+    searchQuery = "";
+    document.getElementById("searchInput").value = "";
+    renderPosts();
+    updateSearchChip();
+  });
+
 
   /* ── PAGE NAVIGATION ── */
 function showPage(name, push = true) {
@@ -691,57 +818,6 @@ function showPage(name, push = true) {
     }
   }
  
-  /* ── SEARCH ── */
-  function openSearch() {
-    document.getElementById("searchOverlay").classList.add("open");
-    document.getElementById("searchInput").focus();
-  }
-  document.getElementById("searchOverlay").addEventListener("click", e => {
-    if (e.target === e.currentTarget) closeSearch();
-  });
-  document.addEventListener("keydown", e => {
-    if (e.key === "Escape") { closeSearch(); }
-  });
-  function closeSearch() {
-    document.getElementById("searchOverlay").classList.remove("open");
-    document.getElementById("searchInput").value = "";
-  }
-
-  document.getElementById("searchInput").addEventListener("input", e => {
-    const q = e.target.value.toLowerCase().trim();
-    if (!q) { renderPosts(); return; }
-    const matches = posts.filter(p =>
-      p.title.toLowerCase().includes(q) ||
-      p.meta.toLowerCase().includes(q) ||
-      sectionLabels[p.section].toLowerCase().includes(q)
-    );
-    const grid = document.getElementById("postGrid");
-    const empty = document.getElementById("emptyState");
-    grid.innerHTML = "";
-    if (matches.length === 0) {
-      grid.style.display = "none";
-      empty.style.display = "block";
-    } else {
-      grid.style.display = "grid";
-      empty.style.display = "none";
-      matches.forEach(p => {
-        const card = document.createElement("div");
-        card.className = "post-card";
-        card.innerHTML = `
-          <div class="post-card-type ${p.section}">${sectionLabels[p.section]}</div>
-          <div class="post-card-title">${p.title}</div>
-          <div class="post-card-meta">${formatDate(p.date)} &nbsp;·&nbsp; ${p.meta}</div>
-        `;
-
-       card.addEventListener("click", () => {
-           if (p.file) {
-              openPost(p);
-         }
-      });
-        grid.appendChild(card);
-      });
-    }
-  });
 
   /* ── BROWSER BACK/FORWARD ── */
   window.addEventListener("popstate", (e) => {
