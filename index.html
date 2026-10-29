@@ -387,6 +387,34 @@
   }
   .about-body p + p { margin-top: 16px; }
 
+  /* ── VIEWER PAGE ── */
+  .viewer-section {
+    padding: 32px 40px 56px;
+  }
+  .viewer-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    padding: 0;
+    margin-bottom: 24px;
+    transition: color 0.15s;
+  }
+  .viewer-back:hover { color: var(--text-primary); }
+  .viewer-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--text-bright);
+    margin-bottom: 20px;
+  }
  
   /* ── PAGE VISIBILITY ── */
   .page { display: none; }
@@ -415,6 +443,7 @@
     .donate-actions { width: 100%; }
     footer { padding: 18px 20px; }
     .about-section, .archive-section { padding: 32px 20px; }
+    .viewer-section { padding: 24px 20px 40px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -524,13 +553,16 @@
 
 <!-- HIDDEN VIEWER PAGE -->
 <div class="page" id="page-viewer">
-
-  <h1 id="viewerTitle"></h1>
-
-  <div id="viewerContent"></div>
-
+  <div class="viewer-section">
+    <button class="viewer-back" onclick="showPage('home')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </button>
+    <h1 class="viewer-title" id="viewerTitle"></h1>
+    <div id="viewerContent"></div>
+  </div>
 </div>
-
+ 
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo" onclick="showPage('home')">The <span>Wrench</span> Studios&trade;</div>
