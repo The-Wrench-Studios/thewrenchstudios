@@ -407,7 +407,6 @@
     margin-bottom: 24px;
     transition: color 0.15s;
   }
- 
   .viewer-back:hover { color: var(--text-primary); }
   .viewer-title {
     font-family: var(--font-display);
@@ -416,27 +415,6 @@
     color: var(--text-bright);
     margin-bottom: 20px;
   }
-
-  .pdf-pages {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-  .pdf-page-canvas {
-    max-width: 100%;
-    height: auto;
-    border: 0.5px solid var(--border-mid);
-    border-radius: 4px;
-  }
-  .pdf-loading {
-    padding: 60px 0;
-    text-align: center;
-    color: var(--text-dim);
-    font-size: 13px;
-    letter-spacing: 0.04em;
-  }
-
  
   /* ── PAGE VISIBILITY ── */
   .page { display: none; }
@@ -613,64 +591,26 @@ function openPost(post) {
   history.pushState({ page: "viewer", postTitle: post.title }, "", "#post-" + encodeURIComponent(post.title));
 }
 
-let pdfJsLoadPromise = null;
-function loadPdfJs() {
-  if (pdfJsLoadPromise) return pdfJsLoadPromise;
-  pdfJsLoadPromise = new Promise((resolve, reject) => {
-    const script = document.createElement("script");
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
-    script.onload = () => {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-      resolve();
-    };
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
-  return pdfJsLoadPromise;
-}
-
-async function renderPdfPages(url, container) {
-  const pdf = await pdfjsLib.getDocument(url).promise;
-  container.innerHTML = "";
-  const wrapper = document.createElement("div");
-  wrapper.className = "pdf-pages";
-  container.appendChild(wrapper);
-
-  for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-    const page = await pdf.getPage(pageNum);
-    const unscaled = page.getViewport({ scale: 1 });
-    const scale = wrapper.clientWidth / unscaled.width;
-    const viewport = page.getViewport({ scale });
-
-    const canvas = document.createElement("canvas");
-    canvas.className = "pdf-page-canvas";
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    wrapper.appendChild(canvas);
-
-    await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
-  }
-}
-
-async function renderViewer(post) {
+function renderViewer(post) {
   document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
   document.getElementById("page-viewer").classList.add("active");
   document.querySelectorAll(".nav-links a").forEach(a => a.classList.remove("active"));
   window.scrollTo({ top: 0, behavior: "smooth" });
 
   document.getElementById("viewerTitle").textContent = post.title;
-  const container = document.getElementById("viewerContent");
 
+  const container = document.getElementById("viewerContent");
   if (post.file.endsWith(".pdf")) {
-    container.innerHTML = '<div class="pdf-loading">Loading PDF…</div>';
-    try {
-      await loadPdfJs();
-      await renderPdfPages(post.file, container);
-    } catch (err) {
-      container.innerHTML = `<p style="color:var(--text-muted)">Couldn't load this PDF. <a href="${post.file}" target="_blank" style="color:var(--accent)">Open it directly</a>.</p>`;
-    }
+    container.innerHTML = `
+      <iframe
+        src="${post.file}"
+        style="width:100%;height:90vh;border:none;">
+      </iframe>
+    `;
   } else {
-    container.innerHTML = `<img src="${post.file}" style="max-width:100%;">`;
+    container.innerHTML = `
+      <img src="${post.file}" style="max-width:100%;">
+    `;
   }
 }
  
