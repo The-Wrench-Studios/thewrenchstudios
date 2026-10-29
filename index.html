@@ -395,6 +395,7 @@
     text-transform: uppercase;
     color: var(--text-primary);
     cursor: pointer;
+    margin-right: auto;
   }
   .footer-logo span { color: var(--accent); }
   .footer-contact {
@@ -545,7 +546,7 @@
   </div>
 
   <div class="content">
-    <div class="section-label">Recent posts</div>
+    <div class="section-label">Recent Posts</div>
     <div class="search-active-chip" id="searchActiveChip" style="display:none;">
       <span id="searchActiveChipText"></span>
       <button id="searchActiveChipClear" aria-label="Clear search">×</button>
@@ -587,15 +588,16 @@
 <div class="page" id="page-about">
   <div class="about-section">
     <div class="about-eyebrow">About</div>
-    <h2 class="about-title">Master Freeze &amp; The Wrench Studios</h2>
+    <h2 class="about-title">The Wrench Studios</h2>
     <div class="about-body">
       <p>Welcome to the only domain where you can access the creative work of Master Freeze.</p>
       <p>The Wrench Studios is a creative portfolio containing stories, artwork, comics, and more. All content is original and made by hand.</p>
       <p>For business inquiries: <a href="mailto:thewrenchstudios@gmail.com" style="color:var(--accent)">thewrenchstudios@gmail.com</a><br>
       For everything else: <a href="https://instagram.com/wrench.studios0_" target="_blank" rel="noopener" style="color:var(--accent)">@wrench.studios0_</a> on Instagram.</p>
-      <p>All content belongs to Zain "Master Freeze" Ansari.</p>
-      <p>This is an open-access website functioning on the honor system. Please do not redistribute material without permission.<br>
-       This website was built with vibe-coding through Claude before manual customization. The Wrench Studios does not use artificial intelligence software to produce creative work.</p>
+      <p>All content belongs to Zain "Master Freeze" Ansari unless otherwise credited. All content that is published through The Wrench Studios has been approved in advance.</p>
+      <p>This is an open-access website functioning on the honor system. Please do not redistribute material without permission.</p>
+       <p>OFFICIAL AI POLICY<br>
+        This website's backbone was vibecoded using Claude AI before manual customization. The Wrench Studios does not use artificial intelligence software to produce any creative work.</p>
       <p>All rights reserved.</p>
     </div>
   </div>
@@ -624,6 +626,15 @@
  
 <script src="posts.js"></script>
 <script>
+
+ footer {
+    padding: 22px 40px;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
  
   /* ── DATA STORE ── */
 
