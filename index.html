@@ -773,12 +773,25 @@ function renderViewer(post) {
     if (e.target === e.currentTarget) cancelSearch();
   });
   document.getElementById("searchCloseBtn").addEventListener("click", cancelSearch);
-  document.addEventListener("keydown", e => {
-    if (!document.getElementById("searchOverlay").classList.contains("open")) return;
-    if (e.key === "Escape") cancelSearch();
-    if (e.key === "Enter") confirmSearch();
-  });
+   document.addEventListener("keydown", e => {
+    const overlayOpen = document.getElementById("searchOverlay").classList.contains("open");
 
+    if (overlayOpen) {
+      if (e.key === "Escape") cancelSearch();
+      if (e.key === "Enter") confirmSearch();
+      return;
+    }
+
+    // Overlay is closed: Enter opens it, unless the person is pressing Enter
+    // on something that already uses it (a tab, link, button, or text field)
+    if (e.key === "/" && !e.repeat) {
+      const tag = document.activeElement ? document.activeElement.tagName : "";
+      if (["BUTTON", "A", "INPUT", "TEXTAREA", "SELECT"].includes(tag)) return;
+      e.preventDefault();
+      openSearch();
+    }
+  });
+ 
   document.getElementById("searchInput").addEventListener("input", e => {
     searchQuery = e.target.value.toLowerCase().trim();
     renderPosts();
