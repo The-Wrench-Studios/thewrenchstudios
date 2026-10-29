@@ -554,7 +554,7 @@
 <!-- HIDDEN VIEWER PAGE -->
 <div class="page" id="page-viewer">
   <div class="viewer-section">
-    <button class="viewer-back" onclick="showPage('home')">
+    <button class="viewer-back" onclick="history.back()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
       Back
     </button>
@@ -585,37 +585,35 @@
 
   let activeFilter = "all";
  
-  /*EMBEDDING FUNCTION*/
-function isMobile() {
-    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
-
+  /*OPEN POST*/
 function openPost(post) {
-
-    if (post.file.endsWith(".pdf") && isMobile()) {
-        window.open(post.file, "_blank");
-        return;
-    }
-
-    showPage("viewer");
-
-    document.getElementById("viewerTitle").textContent = post.title;
-
-    const container = document.getElementById("viewerContent");
-
-    if (post.file.endsWith(".pdf")) {
-        container.innerHTML = `
-            <iframe
-                src="${post.file}"
-                style="width:100%;height:90vh;border:none;">
-            </iframe>
-        `;
-    } else {
-        container.innerHTML = `
-            <img src="${post.file}" style="max-width:100%;">
-        `;
-    }
+  renderViewer(post);
+  history.pushState({ page: "viewer", postTitle: post.title }, "", "#post-" + encodeURIComponent(post.title));
 }
+
+function renderViewer(post) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page-viewer").classList.add("active");
+  document.querySelectorAll(".nav-links a").forEach(a => a.classList.remove("active"));
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  document.getElementById("viewerTitle").textContent = post.title;
+
+  const container = document.getElementById("viewerContent");
+  if (post.file.endsWith(".pdf")) {
+    container.innerHTML = `
+      <iframe
+        src="${post.file}"
+        style="width:100%;height:90vh;border:none;">
+      </iframe>
+    `;
+  } else {
+    container.innerHTML = `
+      <img src="${post.file}" style="max-width:100%;">
+    `;
+  }
+}
+ 
   /* ── RENDER POSTS ── */
   function renderPosts() {
     const grid = document.getElementById("postGrid");
@@ -671,7 +669,7 @@ function openPost(post) {
   });
 
   /* ── PAGE NAVIGATION ── */
-  function showPage(name) {
+function showPage(name, push = true) {
     document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
     document.getElementById("page-" + name).classList.add("active");
     document.querySelectorAll(".nav-links a").forEach(a => a.classList.remove("active"));
@@ -679,8 +677,12 @@ function openPost(post) {
     if (navLink) navLink.classList.add("active");
     if (name === "archive") renderArchive();
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }
 
+    if (push) {
+      history.pushState({ page: name }, "", name === "home" ? location.pathname : "#" + name);
+    }
+  }
+ 
   /* ── SEARCH ── */
   function openSearch() {
     document.getElementById("searchOverlay").classList.add("open");
@@ -733,6 +735,18 @@ function openPost(post) {
     }
   });
 
+  /* ── BROWSER BACK/FORWARD ── */
+  window.addEventListener("popstate", (e) => {
+    const state = e.state || { page: "home" };
+    if (state.page === "viewer" && state.postTitle) {
+      const post = posts.find(p => p.title === state.postTitle);
+      if (post) { renderViewer(post); return; }
+    }
+    showPage(state.page, false);
+  });
+
+  history.replaceState({ page: "home" }, "", location.pathname);
+ 
   /* ── INIT ── */
   renderPosts();
 </script>
