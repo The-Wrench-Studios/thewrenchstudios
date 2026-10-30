@@ -387,6 +387,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 24px;
   }
   .footer-logo {
     font-size: 13px;
@@ -487,7 +488,7 @@
     .donate-section { margin: 0 20px; }
     .donate-inner { flex-direction: column; }
     .donate-actions { width: 100%; }
-    footer { padding: 18px 20px; }
+    footer { padding: 18px 20px; gap: 16px; }
     .about-section, .archive-section { padding: 32px 20px; }
     .viewer-section { padding: 24px 20px 40px; }
   }
@@ -626,15 +627,6 @@
  
 <script src="posts.js"></script>
 <script>
-
- footer {
-    padding: 22px 40px;
-    border-top: 0.5px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-  }
  
   /* ── DATA STORE ── */
 
@@ -797,7 +789,7 @@ function renderViewer(post) {
     // on something that already uses it (a tab, link, button, or text field)
     if (e.key === "/" && !e.repeat) {
       const tag = document.activeElement ? document.activeElement.tagName : "";
-      if (["BUTTON", "A", "INPUT", "TEXTAREA", "SELECT"].includes(tag)) return;
+            if (["INPUT", "TEXTAREA", "SELECT"].includes(tag)) return;
       e.preventDefault();
       openSearch();
     }
