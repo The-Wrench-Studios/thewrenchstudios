@@ -476,8 +476,9 @@
     align-items: center;
     gap: 12px;
   }
-  .pdf-page-canvas {
-    max-width: 100%;
+  .pdf-page-img {
+    display: block;
+    width: 100%;
     height: auto;
     border: 0.5px solid var(--border-mid);
     border-radius: 4px;
@@ -708,31 +709,58 @@ function loadPdfJs() {
 
 let pdfRenderToken = 0;
 
+let pdfObjectUrls = [];
+
+function canvasToBlob(canvas) {
+  return new Promise(resolve => canvas.toBlob(resolve, "image/jpeg", 0.92));
+}
+
 async function renderPdfPages(url, container, token) {
   const pdf = await pdfjsLib.getDocument(url).promise;
+  if (token !== pdfRenderToken) return;
+
   container.innerHTML = "";
   const wrapper = document.createElement("div");
   wrapper.className = "pdf-pages";
   container.appendChild(wrapper);
 
-  // Draw at the screen's real pixel density (capped for phone memory limits)
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const dpr = window.devicePixelRatio || 1;
+  const BOOST = 1.5;            // extra sharpness for pinch-zoom
+  const MAX_PIXELS = 8000000;   // per-page safety cap for phone memory
   const cssWidth = container.clientWidth;
 
   for (let n = 1; n <= pdf.numPages; n++) {
     if (token !== pdfRenderToken) return; // user left this post, stop rendering
+
     const page = await pdf.getPage(n);
     const base = page.getViewport({ scale: 1 });
-    const viewport = page.getViewport({ scale: (cssWidth / base.width) * dpr });
+    let scale = (cssWidth / base.width) * dpr * BOOST;
+    const pixels = (base.width * scale) * (base.height * scale);
+    if (pixels > MAX_PIXELS) scale *= Math.sqrt(MAX_PIXELS / pixels);
+    const viewport = page.getViewport({ scale });
 
     const canvas = document.createElement("canvas");
-    canvas.className = "pdf-page-canvas";
     canvas.width = Math.floor(viewport.width);
     canvas.height = Math.floor(viewport.height);
-    canvas.style.width = cssWidth + "px";   // display size stays screen-width
-    wrapper.appendChild(canvas);
 
-    await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
+    await page.render({
+      canvasContext: canvas.getContext("2d"),
+      viewport,
+      background: "#ffffff"
+    }).promise;
+    page.cleanup();
+
+    const blob = await canvasToBlob(canvas);
+    canvas.width = canvas.height = 0; // release the canvas memory
+    if (!blob || token !== pdfRenderToken) return;
+
+    const objUrl = URL.createObjectURL(blob);
+    pdfObjectUrls.push(objUrl);
+
+    const img = document.createElement("img");
+    img.className = "pdf-page-img";
+    img.src = objUrl;
+    wrapper.appendChild(img);
   }
 }
 
@@ -745,6 +773,8 @@ function renderViewer(post) {
   document.getElementById("viewerTitle").textContent = post.title;
   const container = document.getElementById("viewerContent");
   const token = ++pdfRenderToken; // cancels any in-progress PDF render
+  pdfObjectUrls.forEach(u => URL.revokeObjectURL(u));
+  pdfObjectUrls = [];
 
   if (post.file.endsWith(".pdf")) {
     if (isMobile()) {
