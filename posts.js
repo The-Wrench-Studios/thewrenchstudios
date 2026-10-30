@@ -1,5 +1,21 @@
 const posts = [
 
+ {
+    title: "Venom Month 2026 Collection",
+    section: "art",
+    date: "2026-10-31",
+    meta: "We are Venom!",
+    file: "artwork/VENOM MONTH 2026.pdf"
+    },
+    
+  {
+    title: "Issue #8: Venom Month",
+    section: "icebox",
+    date: "2026-10-31",
+    meta: "How I celebrate The Lethal Protector.",
+    file: "icebox/8_ Venom Month.pdf"
+  },
+    
     {
     title: "Moonshot Birthday Collection",
     section: "art",
