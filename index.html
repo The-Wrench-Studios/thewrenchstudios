@@ -455,6 +455,13 @@
     transition: color 0.15s;
   }
   .viewer-back:hover { color: var(--text-primary); }
+  .viewer-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .viewer-actions .viewer-back { margin-bottom: 0; }
   .viewer-title {
     font-family: var(--font-display);
     font-size: 28px;
@@ -629,10 +636,13 @@
 <!-- HIDDEN VIEWER PAGE -->
 <div class="page" id="page-viewer">
   <div class="viewer-section">
-    <button class="viewer-back" onclick="history.back()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
-      Back
-    </button>
+     <div class="viewer-actions">
+      <button class="viewer-back" onclick="goBack()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+        Back
+      </button>
+      <button class="viewer-back" id="copyLinkBtn" onclick="copyPostLink()">Copy link</button>
+    </div>
     <h1 class="viewer-title" id="viewerTitle"></h1>
     <div id="viewerContent"></div>
   </div>
@@ -665,11 +675,20 @@ function isMobile() {
     return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
-function openPost(post) {
-  renderViewer(post);
-  history.pushState({ page: "viewer", postTitle: post.title }, "", "#post-" + encodeURIComponent(post.title));
+function slugify(t) {
+  return t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
+function findPostBySlug(slug) {
+  return posts.find(p => slugify(p.title) === slug);
+}
+
+function openPost(post) {
+  renderViewer(post);
+  const slug = slugify(post.title);
+  history.pushState({ page: "viewer", slug }, "", "#post-" + slug);
+}
+ 
 /* ── PDF.js (mobile only) ── */
 let pdfJsLoadPromise = null;
 function loadPdfJs() {
@@ -891,17 +910,71 @@ function showPage(name, push = true) {
   }
  
 
-  /* ── BROWSER BACK/FORWARD ── */
+  /* ── DEEP LINKS + BROWSER BACK/FORWARD ── */
+  function routeFromHash(isInitial) {
+    const hash = location.hash.replace(/^#/, "");
+    let state = { page: "home" };
+    let url = location.pathname;
+
+    if (hash.startsWith("post-")) {
+      let raw = hash.slice(5);
+      try { raw = decodeURIComponent(raw); } catch (err) {}
+      const slug = slugify(raw);
+      const post = findPostBySlug(slug);
+      if (post) {
+        renderViewer(post);
+        state = { page: "viewer", slug };
+        url = "#post-" + slug;
+      } else {
+        showPage("home", false);
+      }
+    } else if (hash === "about") {
+      showPage("about", false);
+      state = { page: "about" };
+      url = "#about";
+    } else {
+      showPage("home", false);
+    }
+
+    // On first load, tag the entry so the Back button knows it's the landing page
+    if (isInitial) history.replaceState({ ...state, first: true }, "", url);
+  }
+
   window.addEventListener("popstate", (e) => {
-    const state = e.state || { page: "home" };
-    if (state.page === "viewer" && state.postTitle) {
-      const post = posts.find(p => p.title === state.postTitle);
+    if (!e.state) { routeFromHash(false); return; } // link pasted into an open tab
+    const state = e.state;
+    if (state.page === "viewer" && state.slug) {
+      const post = findPostBySlug(state.slug);
       if (post) { renderViewer(post); return; }
     }
     showPage(state.page, false);
   });
 
-  history.replaceState({ page: "home" }, "", location.pathname);
+  function goBack() {
+    // Arrived straight from a shared link: nothing earlier on the site to go back to
+    if (history.state && history.state.first) {
+      history.replaceState({ page: "home", first: true }, "", location.pathname);
+      showPage("home", false);
+    } else {
+      history.back();
+    }
+  }
+
+  function copyPostLink() {
+    const btn = document.getElementById("copyLinkBtn");
+    const url = location.href;
+    const done = () => {
+      btn.textContent = "Copied!";
+      setTimeout(() => { btn.textContent = "Copy link"; }, 1500);
+    };
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(done, () => prompt("Copy this link:", url));
+    } else {
+      prompt("Copy this link:", url);
+    }
+  }
+
+  routeFromHash(true);
  
   /* ── INIT ── */
   renderPosts();
