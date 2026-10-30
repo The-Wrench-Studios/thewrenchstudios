@@ -462,6 +462,26 @@
     color: var(--text-bright);
     margin-bottom: 20px;
   }
+
+ .pdf-pages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .pdf-page-canvas {
+    max-width: 100%;
+    height: auto;
+    border: 0.5px solid var(--border-mid);
+    border-radius: 4px;
+  }
+  .pdf-loading {
+    padding: 60px 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
  
   /* ── PAGE VISIBILITY ── */
   .page { display: none; }
@@ -646,12 +666,55 @@ function isMobile() {
 }
 
 function openPost(post) {
-  if (post.file.endsWith(".pdf") && isMobile()) {
-    window.open(post.file, "_blank");
-    return;
-  }
   renderViewer(post);
   history.pushState({ page: "viewer", postTitle: post.title }, "", "#post-" + encodeURIComponent(post.title));
+}
+
+/* ── PDF.js (mobile only) ── */
+let pdfJsLoadPromise = null;
+function loadPdfJs() {
+  if (pdfJsLoadPromise) return pdfJsLoadPromise;
+  pdfJsLoadPromise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js";
+    script.onload = () => {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      resolve();
+    };
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+  return pdfJsLoadPromise;
+}
+
+let pdfRenderToken = 0;
+
+async function renderPdfPages(url, container, token) {
+  const pdf = await pdfjsLib.getDocument(url).promise;
+  container.innerHTML = "";
+  const wrapper = document.createElement("div");
+  wrapper.className = "pdf-pages";
+  container.appendChild(wrapper);
+
+  // Draw at the screen's real pixel density (capped for phone memory limits)
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const cssWidth = container.clientWidth;
+
+  for (let n = 1; n <= pdf.numPages; n++) {
+    if (token !== pdfRenderToken) return; // user left this post, stop rendering
+    const page = await pdf.getPage(n);
+    const base = page.getViewport({ scale: 1 });
+    const viewport = page.getViewport({ scale: (cssWidth / base.width) * dpr });
+
+    const canvas = document.createElement("canvas");
+    canvas.className = "pdf-page-canvas";
+    canvas.width = Math.floor(viewport.width);
+    canvas.height = Math.floor(viewport.height);
+    canvas.style.width = cssWidth + "px";   // display size stays screen-width
+    wrapper.appendChild(canvas);
+
+    await page.render({ canvasContext: canvas.getContext("2d"), viewport }).promise;
+  }
 }
 
 function renderViewer(post) {
@@ -661,19 +724,22 @@ function renderViewer(post) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 
   document.getElementById("viewerTitle").textContent = post.title;
-
   const container = document.getElementById("viewerContent");
+  const token = ++pdfRenderToken; // cancels any in-progress PDF render
+
   if (post.file.endsWith(".pdf")) {
-    container.innerHTML = `
-      <iframe
-        src="${post.file}"
-        style="width:100%;height:90vh;border:none;">
-      </iframe>
-    `;
+    if (isMobile()) {
+      container.innerHTML = '<div class="pdf-loading">Loading…</div>';
+      loadPdfJs()
+        .then(() => renderPdfPages(post.file, container, token))
+        .catch(() => {
+          container.innerHTML = `<p style="color:var(--text-muted)">Couldn't load this PDF. <a href="${post.file}" target="_blank" style="color:var(--accent)">Open it directly</a>.</p>`;
+        });
+    } else {
+      container.innerHTML = `<iframe src="${post.file}" style="width:100%;height:90vh;border:none;"></iframe>`;
+    }
   } else {
-    container.innerHTML = `
-      <img src="${post.file}" style="max-width:100%;">
-    `;
+    container.innerHTML = `<img src="${post.file}" style="max-width:100%;">`;
   }
 }
  
