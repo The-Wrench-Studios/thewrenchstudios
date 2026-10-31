@@ -3,7 +3,7 @@ const posts = [
  {
     title: "Venom Month 2026 Collection",
     section: "art",
-    date: "2026-10-31",
+    date: "2026-10-30",
     meta: "We are Venom!",
     file: "artwork/VENOM MONTH 2026.pdf"
     },
@@ -11,7 +11,7 @@ const posts = [
   {
     title: "Issue #8: Venom Month",
     section: "icebox",
-    date: "2026-10-31",
+    date: "2026-10-301",
     meta: "How I celebrate The Lethal Protector.",
     file: "icebox/8_ Venom Month.pdf"
   },
@@ -19,7 +19,7 @@ const posts = [
     {
     title: "Moonshot Birthday Collection",
     section: "art",
-    date: "2026-10-27",
+    date: "2026-10-26",
     meta: "Moonshot, galactic bounty hunter and baker!",
     file: "artwork/Moonshot Birthday Collection.pdf"
     },
@@ -27,7 +27,7 @@ const posts = [
   {
     title: "Issue #7: Top Loopstation Tracks",
     section: "icebox",
-    date: "2026-10-24",
+    date: "2026-10-23",
     meta: "My personal favorite beatbox loopstation artists and tracks.",
     file: "icebox/7_ Top Loopstation Tracks.pdf"
   },
@@ -35,7 +35,7 @@ const posts = [
   {
     title: "Issue #6: Loopstation, the Beatbox Instrument",
     section: "icebox",
-    date: "2026-10-17",
+    date: "2026-10-16",
     meta: "Loopstation and its evolution with beatboxing.",
     file: "icebox/6_ Beatbox Loopstation.pdf"
   },
@@ -43,7 +43,7 @@ const posts = [
   {
     title: "Issue #5: The Next Smash Bros.",
     section: "icebox",
-    date: "2026-10-10",
+    date: "2026-10-09",
     meta: "A deep insight about the future of Smash.",
     file: "icebox/5_ The Next Smash Bros.pdf"
   },
@@ -51,7 +51,7 @@ const posts = [
   {
     title: "Classix: The Comix",
     section: "comics",
-    date: "2026-09-19",
+    date: "2026-09-18",
     meta: "A short collection of absurd humor.",
     file: "comics/The Comix.pdf"
   },
@@ -59,7 +59,7 @@ const posts = [
   {
     title: "The Legion of the Wrench End Movie [Official Script]",
     section: "library",
-    date: "2026-09-05",
+    date: "2026-09-04",
     meta: "Read the written script for the final Legion project.",
     file: "library/Wrench End Movie Script.pdf"
   },
@@ -67,7 +67,7 @@ const posts = [
   {
     title: "Issue #4: Brand New Venom",
     section: "icebox",
-    date: "2026-08-15",
+    date: "2026-08-14",
     meta: "A new era for the symbiote antihero.",
     file: "icebox/4_ Brand New Venom.pdf"
   },
@@ -75,7 +75,7 @@ const posts = [
   {
     title: "Classix: T.H.U.G.",
     section: "comics",
-    date: "2026-07-18",
+    date: "2026-07-17",
     meta: "The original scans of #1-4 from 2014!",
     file: "comics/THUG 1-4 Original Scans.pdf"
   },
@@ -83,7 +83,7 @@ const posts = [
   {
     title: "Classix: Stupid Machine",
     section: "comics",
-    date: "2026-07-18",
+    date: "2026-07-17",
     meta: "The original scans from 2014!",
     file: "comics/Stupid Machine Original Scans.pdf"
   },
@@ -91,7 +91,7 @@ const posts = [
   {
     title: "Classix: Nonsense Comics Origin",
     section: "comics",
-    date: "2026-07-18",
+    date: "2026-07-17",
     meta: "The earliest comics that still remain!",
     file: "comics/Nonsense Original Scans.pdf"
   },
@@ -99,7 +99,7 @@ const posts = [
   {
     title: "The Awesome Comix Official Logo",
     section: "art",
-    date: "2026-07-18",
+    date: "2026-07-17",
     meta: "A new era of Awesome!",
     file: "artwork/AC New Logo.png"
   },
@@ -107,7 +107,7 @@ const posts = [
   {
     title: "Issue #3: The Awesome Comix",
     section: "icebox",
-    date: "2026-07-18",
+    date: "2026-07-17",
     meta: "The story of how I started drawing comics!",
     file: "icebox/3_ Awesome Comix.pdf"
   },
@@ -115,7 +115,7 @@ const posts = [
   {
     title: "Issue #2: The Wrench Studios",
     section: "icebox",
-    date: "2026-07-11",
+    date: "2026-07-10",
     meta: "Learn about where the Wrench came from!",
     file: "icebox/2_ The Wrench Studios.pdf"
   },
@@ -123,7 +123,7 @@ const posts = [
    {
     title: "The Icebox Official Logo",
     section: "art",
-    date: "2026-07-02",
+    date: "2026-07-01",
     meta: "New Icebox Emblem!",
     file: "artwork/The Icebox Logo.png"
   },
@@ -131,7 +131,7 @@ const posts = [
   {
     title: "Issue #1: The Return",
     section: "icebox",
-    date: "2026-07-02",
+    date: "2026-07-01",
     meta: "Welcome back to the Icebox.",
     file: "icebox/1_ The Return.pdf"
   },
@@ -139,7 +139,7 @@ const posts = [
   {
     title: "The Wrench Studios Official Logo",
     section: "art",
-    date: "2026-07-01",
+    date: "2026-06-30",
     meta: "The first new logo!",
     file: "artwork/Studios.png"
   },
