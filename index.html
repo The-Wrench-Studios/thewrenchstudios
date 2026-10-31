@@ -491,18 +491,6 @@
     letter-spacing: 0.04em;
   }
 
-  .gallery {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-  .gallery-img {
-    display: block;
-    width: 100%;
-    max-width: 900px;
-    height: auto;
-  }
  
   /* ── PAGE VISIBILITY ── */
   .page { display: none; }
@@ -789,12 +777,7 @@ function renderViewer(post) {
   pdfObjectUrls.forEach(u => URL.revokeObjectURL(u));
   pdfObjectUrls = [];
 
- if (post.files) {
-    const alt = post.title.replace(/"/g, "&quot;");
-    container.innerHTML = '<div class="gallery">' + post.files
-      .map((src, i) => `<img class="gallery-img" src="${src}" alt="${alt}, page ${i + 1}" loading="lazy">`)
-      .join("") + '</div>';
-  } else if (post.file.endsWith(".pdf")) {
+  if (post.file.endsWith(".pdf")) {
     if (isMobile()) {
       container.innerHTML = '<div class="pdf-loading">Loading…</div>';
       loadPdfJs()
@@ -844,7 +827,7 @@ function renderViewer(post) {
            <div class="post-card-title">${p.title}</div>
            <div class="post-card-meta">${formatDate(p.date)} · ${p.meta}</div>
           `;
-        card.addEventListener("click", () => { if (p.file || p.files) openPost(p); });
+        card.addEventListener("click", () => { if (p.file) openPost(p); });
         grid.appendChild(card);
       });
     }
