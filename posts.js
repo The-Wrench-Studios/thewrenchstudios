@@ -1,18 +1,5 @@
-function pages(folder, count, ext = "png") {
-  return Array.from({ length: count }, (_, i) =>
-    `${folder}${String(i + 1).padStart(2, "0")}.${ext}`);
-}
-
 const posts = [
 
- {
-    title: "Venom Month 2026 Collection",
-    section: "art",
-    date: "2026-10-31",
-    meta: "We are Venom!",
-    files: pages("artwork/VENOM MONTH 2026/VENOM ART/", 15)
-    },
-  
  {
     title: "Venom Month 2026 Collection",
     section: "art",
