@@ -10,6 +10,14 @@ const posts = [
     section: "art",
     date: "2026-10-31",
     meta: "We are Venom!",
+    files: pages("artwork/VENOM MONTH 2026/VENOM ART/", 15)
+    },
+  
+ {
+    title: "Venom Month 2026 Collection",
+    section: "art",
+    date: "2026-10-31",
+    meta: "We are Venom!",
     file: "artwork/VENOM MONTH 2026.pdf"
     },
     
