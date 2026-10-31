@@ -288,13 +288,20 @@
  
   /* ── POST GRID ── */
   .post-grid {
+    --card-h: 132px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-auto-rows: var(--card-h);
     gap: 1px;
     background: var(--border);
     border: 0.5px solid var(--border);
     border-radius: 8px;
-    overflow: hidden;
+    box-sizing: content-box;
+    max-height: calc(var(--card-h) * 5 + 4px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-mid) var(--bg-card);
     margin-bottom: 36px;
   }
 
@@ -325,11 +332,19 @@
     font-weight: 500;
     color: var(--text-primary);
     line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .post-card-meta {
     font-size: 11px;
     color: var(--text-dim);
-    margin-top: 2px;
+    margin-top: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* empty state */
@@ -562,6 +577,7 @@
       justify-content: center;
       padding: 12px 4px;
     }
+    .post-grid { max-height: none; overflow: hidden; }
     .content { padding: 24px 20px; }
     .donate-section { margin: 0 20px; }
     .donate-inner { flex-direction: column; }
@@ -880,6 +896,7 @@ function renderViewer(post) {
     const grid = document.getElementById("postGrid");
     const empty = document.getElementById("emptyState");
     grid.innerHTML = "";
+    grid.scrollTop = 0;
     if (list.length === 0) {
       grid.style.display = "none";
       empty.style.display = "block";
@@ -889,6 +906,7 @@ function renderViewer(post) {
       list.forEach(p => {
         const card = document.createElement("div");
         card.className = "post-card";
+        card.title = p.title;
         card.innerHTML = `
            <div class="post-card-type ${p.section}">${sectionLabels[p.section]}</div>
            <div class="post-card-title">${p.title}</div>
