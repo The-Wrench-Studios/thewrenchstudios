@@ -1,3 +1,8 @@
+function pages(folder, count, ext = "png") {
+  return Array.from({ length: count }, (_, i) =>
+    `${folder}${String(i + 1).padStart(2, "0")}.${ext}`);
+}
+
 const posts = [
 
  {
