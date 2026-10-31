@@ -288,7 +288,7 @@
  
   /* ── POST GRID ── */
   .post-grid {
-    --card-h: 132px;
+    --card-h: 168px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     grid-auto-rows: var(--card-h);
@@ -338,6 +338,18 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+   .post-card-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+ 
   .post-card-meta {
     font-size: 11px;
     color: var(--text-dim);
@@ -529,9 +541,19 @@
     font-size: 28px;
     font-weight: 400;
     color: var(--text-bright);
-    margin-bottom: 20px;
+    margin-bottom: 0px;
   }
 
+  .viewer-head { margin-bottom: 20px; }
+  .viewer-desc {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 680px;
+  }
+  .viewer-desc:empty { display: none; }
+ 
  .pdf-pages {
     display: flex;
     flex-direction: column;
@@ -727,7 +749,10 @@
       </button>
       <button class="viewer-back" id="copyLinkBtn" onclick="copyPostLink()">Copy link</button>
     </div>
-    <h1 class="viewer-title" id="viewerTitle"></h1>
+     <div class="viewer-head">
+      <h1 class="viewer-title" id="viewerTitle"></h1>
+      <p class="viewer-desc" id="viewerDesc"></p>
+    </div>
     <div id="viewerContent"></div>
   </div>
 </div>
@@ -855,6 +880,7 @@ function renderViewer(post) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 
   document.getElementById("viewerTitle").textContent = post.title;
+  document.getElementById("viewerDesc").textContent = post.meta || "";
   const container = document.getElementById("viewerContent");
   const token = ++pdfRenderToken; // cancels any in-progress PDF render
   pdfObjectUrls.forEach(u => URL.revokeObjectURL(u));
@@ -910,7 +936,8 @@ function renderViewer(post) {
         card.innerHTML = `
            <div class="post-card-type ${p.section}">${sectionLabels[p.section]}</div>
            <div class="post-card-title">${p.title}</div>
-           <div class="post-card-meta">${formatDate(p.date)} · ${p.meta}</div>
+           ${p.meta ? `<div class="post-card-desc">${p.meta}</div>` : ""}
+           <div class="post-card-meta">${formatDate(p.date)}</div>
           `;
         card.addEventListener("click", () => { if (p.file) openPost(p); });
         grid.appendChild(card);
