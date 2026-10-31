@@ -11,7 +11,7 @@ const posts = [
   {
     title: "Issue #8: Venom Month",
     section: "icebox",
-    date: "2026-10-301",
+    date: "2026-10-30",
     meta: "How I celebrate The Lethal Protector.",
     file: "icebox/8_ Venom Month.pdf"
   },
