@@ -33,25 +33,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Shojumaru&family=Zen+Brush+2&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Lexend+Giga&family=Zen+Brush+2&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Kanit&family=Zen+Brush+2&display=swap" rel="stylesheet" />
+
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
     --accent: #4fc3e8;
     --accent-dim: #3daad0;
-    --bg: #07090f;
+    --bg: #000000;
     --bg-card: #080c12;
     --bg-hover: #0d1520;
     --border: #0f1825;
     --border-mid: #1e3048;
     --text-primary: #c8dff0;
-    --text-bright: #ddeeff;
+    --text-bright: #ffffff;
     --text-muted: #3a5570;
     --text-dim: #1e3048;
-    --color-blog: #5b8fbf;
-    --color-story: #3daad0;
-    --color-comic: #8ab4d4;
-    --color-art: #4fc3e8;
+    --color-blog: #00ffff;
+    --color-story: #006eff;
+    --color-comic: #ffffff;
+    --color-art: #ffee00;
     --font-body: system-ui, -apple-system, sans-serif;
     --font-display: 'Zen Brush 2', serif;
   }
@@ -223,7 +226,8 @@
   .hero-logo img { display: block; width: min(100%, 400px); height: auto; }
  
   .hero-eyebrow {
-    font-size: 10px;
+    font-family: 'Lexend Giga', var(--font-display);
+    font-size: 12px;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--accent);
@@ -255,6 +259,7 @@
   .tabs::-webkit-scrollbar { display: none; }
 
   .tab {
+    font-family: 'Kanit', var(--font-display);
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -269,7 +274,6 @@
     border-left: none;
     border-right: none;
     border-top: none;
-    font-family: var(--font-body);
   }
   .tab:hover { color: var(--text-primary); }
   .tab.active {
