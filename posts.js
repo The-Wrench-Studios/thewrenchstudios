@@ -1,6 +1,5 @@
 const posts = [
 
- 
  {
     title: "Game & Watch Collection 2026",
     section: "art",
@@ -16,6 +15,14 @@ const posts = [
     meta: "The legendary toymaker who transformed Nintendo.",
     file: "icebox/9_ Gunpei Yokoi.pdf"
   },
+
+ {
+    title: "Venom Month 2026 [Full Sizes]",
+    section: "art",
+    date: "2026-10-30",
+    meta: "We are Venom!",
+    file: "artwork/VENOM MONTH 2026.pdf"
+    },
  
  {
     title: "Venom Month 2026 Collection",
