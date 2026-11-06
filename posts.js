@@ -14,7 +14,7 @@ const posts = [
     section: "icebox",
     date: "2026-11-06",
     meta: "The legendary toymaker who transformed Nintendo.",
-    file: "icebox/8_ Gunpei Yokoi.pdf"
+    file: "icebox/9_ Gunpei Yokoi.pdf"
   },
  
  {
