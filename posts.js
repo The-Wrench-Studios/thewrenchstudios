@@ -1,5 +1,6 @@
 const posts = [
 
+ 
  {
     title: "Game & Watch Collection 2026",
     section: "art",
