@@ -1,10 +1,10 @@
 const posts = [
 
  {
-    title: "Game & Watch Collection 2026",
+    title: "Game & Watch Collection",
     section: "art",
     date: "2026-11-06",
-    meta: "The REAL first video game character.",
+    meta: "The REAL first video game character and 2D legend.",
     file: "artwork/GnW Collection 2026.pdf"
     },
 
