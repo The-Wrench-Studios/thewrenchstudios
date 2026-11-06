@@ -17,7 +17,7 @@ const posts = [
   },
 
  {
-    title: "Venom Month 2026 [Full Sizes]",
+    title: "Venom Month 2026 Collection [Full Sizes]",
     section: "art",
     date: "2026-10-30",
     meta: "We are Venom!",
