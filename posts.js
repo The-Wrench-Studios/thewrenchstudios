@@ -21,7 +21,7 @@ const posts = [
     section: "art",
     date: "2026-10-30",
     meta: "We are Venom!",
-    file: "artwork/VENOM MONTH 2026.pdf"
+    file: "artwork/VENOM MONTH 2026 Collection Full Scale.pdf"
     },
  
  {
