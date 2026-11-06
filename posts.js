@@ -1,6 +1,22 @@
 const posts = [
 
  {
+    title: "Game & Watch Collection 2026",
+    section: "art",
+    date: "2026-11-06",
+    meta: "The REAL first video game character.",
+    file: "artwork/GnW Collection 2026.pdf"
+    },
+
+  {
+    title: "Issue #9: Gunpei Yokoi",
+    section: "icebox",
+    date: "2026-11-06",
+    meta: "The legendary toymaker who transformed Nintendo.",
+    file: "icebox/8_ Gunpei Yokoi.pdf"
+  },
+ 
+ {
     title: "Venom Month 2026 Collection",
     section: "art",
     date: "2026-10-30",
