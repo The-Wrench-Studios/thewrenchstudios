@@ -1,5 +1,13 @@
 const posts = [
 
+  {
+    title: "Issue #10: Favorite Omnitrix Aliens",
+    section: "icebox",
+    date: "2026-11-13",
+    meta: "My personal top 10 aliens from Ben 10.",
+    file: "icebox/10_ Favorite Omnitrix Aliens.pdf"
+  },
+ 
  {
     title: "Game & Watch Collection",
     section: "art",
