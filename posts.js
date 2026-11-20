@@ -1,5 +1,21 @@
 const posts = [
 
+ {
+    title: "Lava Birthday Collection",
+    section: "art",
+    date: "2026-11-20",
+    meta: "Sensei Lava, a true hero.",
+    file: "artwork/Lava Birthday Collection.pdf"
+    },
+  
+  {
+    title: "Issue #11: Sensei Lava",
+    section: "icebox",
+    date: "2026-11-20",
+    meta: "The legendary hero and counterpart to Master Freeze.",
+    file: "icebox/11_ Sensei Lava.pdf"
+  },
+  
   {
     title: "Issue #10: Favorite Omnitrix Aliens",
     section: "icebox",
