@@ -1,7 +1,7 @@
 const posts = [
 
    {
-    title: "Issue #12: Shinobi: Art of Vengeance",
+    title: "[12] Shinobi: Art of Vengeance",
     section: "icebox",
     date: "2026-11-27",
     meta: "SEGA's awesome new ninja action game from the classic series.",
@@ -17,7 +17,7 @@ const posts = [
     },
   
   {
-    title: "Issue #11: Sensei Lava",
+    title: "[11] Sensei Lava",
     section: "icebox",
     date: "2026-11-20",
     meta: "The legendary hero and counterpart to Master Freeze.",
@@ -25,7 +25,7 @@ const posts = [
   },
   
   {
-    title: "Issue #10: Favorite Omnitrix Aliens",
+    title: "[10] Favorite Omnitrix Aliens",
     section: "icebox",
     date: "2026-11-13",
     meta: "My personal top 10 aliens from Ben 10.",
@@ -41,7 +41,7 @@ const posts = [
     },
 
   {
-    title: "Issue #9: Gunpei Yokoi",
+    title: "[9] Gunpei Yokoi",
     section: "icebox",
     date: "2026-11-06",
     meta: "The legendary toymaker who transformed Nintendo.",
@@ -65,7 +65,7 @@ const posts = [
     },
     
   {
-    title: "Issue #8: Venom Month",
+    title: "[8] Venom Month",
     section: "icebox",
     date: "2026-10-30",
     meta: "How I celebrate The Lethal Protector.",
@@ -81,7 +81,7 @@ const posts = [
     },
   
   {
-    title: "Issue #7: Top Loopstation Tracks",
+    title: "[7] Top Loopstation Tracks",
     section: "icebox",
     date: "2026-10-23",
     meta: "My personal favorite beatbox loopstation artists and tracks.",
@@ -89,7 +89,7 @@ const posts = [
   },
   
   {
-    title: "Issue #6: Loopstation, the Beatbox Instrument",
+    title: "[6] Loopstation, the Beatbox Instrument",
     section: "icebox",
     date: "2026-10-16",
     meta: "Loopstation and its evolution with beatboxing.",
@@ -97,7 +97,7 @@ const posts = [
   },
   
   {
-    title: "Issue #5: The Next Smash Bros.",
+    title: "[5] The Next Smash Bros.",
     section: "icebox",
     date: "2026-10-09",
     meta: "A deep insight about the future of Smash.",
@@ -121,7 +121,7 @@ const posts = [
   },
   
   {
-    title: "Issue #4: Brand New Venom",
+    title: "[4] Brand New Venom",
     section: "icebox",
     date: "2026-08-14",
     meta: "A new era for the symbiote antihero.",
@@ -161,7 +161,7 @@ const posts = [
   },
   
   {
-    title: "Issue #3: The Awesome Comix",
+    title: "[3] The Awesome Comix",
     section: "icebox",
     date: "2026-07-17",
     meta: "The story of how I started drawing comics!",
@@ -169,7 +169,7 @@ const posts = [
   },
   
   {
-    title: "Issue #2: The Wrench Studios",
+    title: "[2] The Wrench Studios",
     section: "icebox",
     date: "2026-07-10",
     meta: "Learn about where the Wrench came from!",
@@ -185,7 +185,7 @@ const posts = [
   },
   
   {
-    title: "Issue #1: The Return",
+    title: "[1] The Return",
     section: "icebox",
     date: "2026-07-01",
     meta: "Welcome back to the Icebox.",
@@ -201,7 +201,7 @@ const posts = [
   },
 
   {
-    title: "Issue #0: Master Freeze",
+    title: "[0] Master Freeze",
     section: "icebox",
     date: "0000-00-00",
     meta: "Learn about the legend.",
