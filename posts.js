@@ -1,5 +1,13 @@
 const posts = [
 
+   {
+    title: "Issue #12: Shinobi: Art of Vengeance",
+    section: "icebox",
+    date: "2026-11-27",
+    meta: "SEGA's awesome new ninja action game from the classic series.",
+    file: "icebox/12_ Shinobi_ Art of Vengeance.pdf"
+  },
+ 
  {
     title: "Lava Birthday Collection",
     section: "art",
